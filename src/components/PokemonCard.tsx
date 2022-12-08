@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { Pokemon } from '../interfaces';
 import { background } from '../utils/BackgroundsByType';
+import { addPokemon } from '../store/favoritesSlice';
 
 interface Props {
   pokemon: Pokemon;
@@ -8,6 +10,8 @@ interface Props {
 
 const PokemonCard = ({ pokemon }: Props) => {
   const backgroundSelected = background[pokemon.types[0].type.name];
+  const pokemonsLiked = useSelector((state: any) => state.favoritesPokemons.favoritesPokemons);
+  const dispatch = useDispatch();
 
   return (
     <div className="w-full max-w-[350px] rounded-lg shadow-sm flex flex-col hover:shadow-lg">
@@ -46,16 +50,39 @@ const PokemonCard = ({ pokemon }: Props) => {
           className="flex justify-between text-[16px] p-4 rounded-b-lg capitalize text-white"
         >
           {pokemon.name}
-          <button>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
+          <button
+            onClick={() =>
+              dispatch(
+                addPokemon({
+                  id: pokemon.id,
+                  name: pokemon.name,
+                  image: pokemon.sprites.other.dream_world.front_default,
+                  types: pokemon.types,
+                })
+              )
+            }
+          >
+            {pokemonsLiked.find((pokemonLiked: Pokemon) => pokemonLiked.id === pokemon.id) ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+            )}
           </button>
         </div>
       </div>
