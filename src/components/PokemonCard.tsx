@@ -1,15 +1,23 @@
 import { Link } from 'react-router-dom';
 import { Pokemon } from '../interfaces';
+import { background } from '../utils/BackgroundsByType';
 
 interface Props {
   pokemon: Pokemon;
 }
 
 const PokemonCard = ({ pokemon }: Props) => {
+  const backgroundSelected = background[pokemon.types[0].type.name];
+
   return (
     <div className="w-full max-w-[350px] rounded-lg shadow-sm flex flex-col hover:shadow-lg">
-      <div className="flex flex-col rounded-lg shadow-sm border border-transparent border-b-0">
-        <span className="text-end py-1 px-2">#{pokemon?.id}</span>
+      <div
+        style={{ borderColor: backgroundSelected }}
+        className="flex flex-col rounded-lg shadow-sm border border-transparent border-b-0"
+      >
+        <span style={{ color: backgroundSelected }} className="text-end py-1 px-2">
+          #{pokemon?.id}
+        </span>
         <Link to={`/pokemon/${pokemon?.id}`}>
           {pokemon.sprites.front_default ? (
             <img
@@ -22,14 +30,21 @@ const PokemonCard = ({ pokemon }: Props) => {
           )}
           <div className="flex justify-center gap-2 py-2">
             {pokemon.types.map((type, index) => (
-              <span key={index} className="capitalize rounded-full px-2 py-1 text-sm">
+              <span
+                key={index}
+                style={{ background: background[type.type.name] }}
+                className="capitalize rounded-full px-2 py-1 text-sm"
+              >
                 {type.type.name}
               </span>
             ))}
           </div>
         </Link>
 
-        <div className="flex justify-between text-[16px] p-4 rounded-b-lg capitalize text-white">
+        <div
+          style={{ background: backgroundSelected }}
+          className="flex justify-between text-[16px] p-4 rounded-b-lg capitalize text-white"
+        >
           {pokemon.name}
           <button>
             <svg
