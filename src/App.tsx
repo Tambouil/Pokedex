@@ -1,9 +1,10 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Home from './pages/Home';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <h1>Hello</h1>,
+    element: <Home />,
   },
   {
     path: '/pokemon/:pokemonId',
