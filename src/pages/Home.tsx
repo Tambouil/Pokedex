@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import FavoritesPokemons from '../components/FavoritesPokemons';
 import Header from '../components/Header';
 import PokemonList from '../components/PokemonList';
 import { Pokemon } from '../interfaces';
@@ -37,6 +38,7 @@ const Home = () => {
   return (
     <div className="bg-gray-100">
       <Header setSearch={setSearch} />
+      <FavoritesPokemons />
       {isLoading ? (
         <div className="flex items-center justify-center h-[140px]">Loading</div>
       ) : (
